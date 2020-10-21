@@ -10,10 +10,14 @@ const outputPath = path.join(OUTPUT_DIR, "team.html");
 
 const render = require("./lib/htmlRenderer");
 
+let team = [];
+
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-inquirer.prompt([
+
+
+const employeeQ = [
     {
         type: "input",
         name: "name",
@@ -33,55 +37,74 @@ inquirer.prompt([
         type: "input",
         name: "role",
         message: "What is your current role?",
-        choices: ["Manager", "Engineer", "Intern"],
+        choices: ["Manager", "Engineer", "Intern"]
     },
-    
- ]);
+ ];
 
-//        if (choices === "Manager")
-inquirer.prompt([
+const managerQ = [
     {
         type: "input",
         name: "officeNumber",
         message: "What is your office number?",
     }
-])
-//         else if (choices === "Engineer")
-inquirer.prompt([
+];
+const engineerQ = [
     {
         type: "input",
         name: "github",
         message: "What is your GitHub username?",
     }
-])
-//         else if (choices === "Intern")
-inquirer.prompt([
+];
+const internQ = [
     {
         type: "input",
         name: "school",
         message: "Where do you attend school?",
     }
-])
-
-// function to initialize program
-// function init() {
-//     console.log('init function');
-//     inquirer.prompt(questions).then(function(response) {
-//         console.log(response);
-//         writeToFile("team.html", markdown(response));
-//     });
-
-// }
-
-// function call to initialize program
-// init();
-
-
-
+];
+const moreEmployeesQ = [
+    {
+        type: "input",
+        name: "more",
+        message: "Would you like to add another employee?",
+        choices: ["Yes", "No"],
+    }
+]
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
 // generate and return a block of HTML including templated divs for each employee!
+function addManager (data, managerInfo) {
+    let newManager = new Manager(data.name, data.id, data.email, managerInfo.officeNumber);
+}
+function addEngineer (data, engineerInfo) {
+    let newEngineer = new Engineer(data.name, data.id, data.email, engineerInfo.github);
+}
+function addIntern(data, internInfo) {
+    let newIntern = new Intern(data.name, data.id, data.email, internInfo.school);
+}
+
+
+function init() {
+    // console.log('init function');
+    inquirer.prompt(employeeQ).then(function(data) => {
+        // console.log(response);
+        if (data.role === Manager) {
+            inquirer.prompt(managerQ).then(function(managerInfo){
+                addManager(data, managerInfo);
+            });
+        } else if (data.role === Engineer) {
+            inquirer.prompt(engineerQ).then(function(engineerInfo){
+                addEngineer(data, engineerInfo);
+            });
+        } else if (data.role === Intern) {
+            inquirer.prompt(internQ).then(function(internInfo){
+                addIntern(data, internInfo);
+            });
+        }
+    });
+    
+}
 
 // After you have your html, you're now ready to create an HTML file using the HTML
 // returned from the `render` function. Now write it to a file named `team.html` in the
@@ -89,12 +112,8 @@ inquirer.prompt([
 // Hint: you may need to check if the `output` folder exists and create it if it
 // does not.
 
-// HINT: each employee type (manager, engineer, or intern) has slightly different
-// information; write your code to ask different questions via inquirer depending on
-// employee type.
+// writeToFile("Team.html", markdown(response));
 
-// HINT: make sure to build out your classes first! Remember that your Manager, Engineer,
-// and Intern classes should all extend from a class named Employee; see the directions
-// for further information. Be sure to test out each class and verify it generates an
-// object with the correct structure and methods. This structure will be crucial in order
-// for the provided `render` function to work! ```
+
+
+init();
