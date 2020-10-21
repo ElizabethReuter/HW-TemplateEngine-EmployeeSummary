@@ -13,8 +13,7 @@ const render = require("./lib/htmlRenderer");
 
 // Write code to use inquirer to gather information about the development team members,
 // and to create objects for each team member (using the correct classes as blueprints!)
-
-const EmpQuestions = [
+inquirer.prompt([
     {
         type: "input",
         name: "name",
@@ -37,31 +36,48 @@ const EmpQuestions = [
         choices: ["Manager", "Engineer", "Intern"],
     },
     
- ];
+ ]);
 
-// function to write README file
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName, data, function(error) {
-        if (error) {
-            return "error";
-            console.log(error);
-        }
-        console.log("Success");
-      })
-}
+//        if (choices === "Manager")
+inquirer.prompt([
+    {
+        type: "input",
+        name: "officeNumber",
+        message: "What is your office number?",
+    }
+])
+//         else if (choices === "Engineer")
+inquirer.prompt([
+    {
+        type: "input",
+        name: "github",
+        message: "What is your GitHub username?",
+    }
+])
+//         else if (choices === "Intern")
+inquirer.prompt([
+    {
+        type: "input",
+        name: "school",
+        message: "Where do you attend school?",
+    }
+])
 
 // function to initialize program
-function init() {
-    console.log('init function');
-    inquirer.prompt(questions).then(function(response) {
-        console.log(response);
-        writeToFile("readme.md", markdown(response));
-    });
+// function init() {
+//     console.log('init function');
+//     inquirer.prompt(questions).then(function(response) {
+//         console.log(response);
+//         writeToFile("team.html", markdown(response));
+//     });
 
-}
+// }
 
 // function call to initialize program
-init();
+// init();
+
+
+
 
 // After the user has input all employees desired, call the `render` function (required
 // above) and pass in an array containing all employee objects; the `render` function will
