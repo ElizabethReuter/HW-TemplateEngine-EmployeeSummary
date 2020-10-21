@@ -84,7 +84,6 @@ function addIntern(data, internInfo) {
     let newIntern = new Intern(data.name, data.id, data.email, internInfo.school);
 }
 
-
 function init() {
     // console.log('init function');
     inquirer.prompt(employeeQ).then(function(data) => {
