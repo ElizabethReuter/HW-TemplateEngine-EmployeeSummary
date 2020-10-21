@@ -23,10 +23,10 @@ class Employee {
     }
 }
 
-var ob = new Employee("Tom", 1, "test@test.com");
-var ob2 = new Employee("Dave", 2, "test2@test.com");
+// var ob = new Employee("Tom", 1, "test@test.com");
+// var ob2 = new Employee("Dave", 2, "test2@test.com");
 
-console.log(ob, ob2);
-ob.getName();
+// console.log(ob, ob2);
+// ob.getName();
 
 module.exports = Employee; 
