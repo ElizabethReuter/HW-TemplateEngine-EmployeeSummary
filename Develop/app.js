@@ -12,11 +12,6 @@ const render = require("./lib/htmlRenderer");
 
 let team = [];
 
-
-// Write code to use inquirer to gather information about the development team members,
-// and to create objects for each team member (using the correct classes as blueprints!)
-
-
 const employeeQ = [
     {
         type: "input",
@@ -70,25 +65,20 @@ const moreEmployeesQ = [
     }
 ]
 
-// After the user has input all employees desired, call the `render` function (required
-// above) and pass in an array containing all employee objects; the `render` function will
-// generate and return a block of HTML including templated divs for each employee!
-
 function init() {
-    // console.log('init function');
     inquirer.prompt(employeeQ).then(function(data) {
-        console.log(data);
         if (data.role === "Manager") {
             function addManager (data, managerInfo) {
             let newManager = new Manager(data.name, data.id, data.email, managerInfo.officeNumber);
+            team.push(newManager);
             }
             inquirer.prompt(managerQ).then(function(managerInfo){
                 addManager(data, managerInfo);
                 inquirer.prompt(moreEmployeesQ).then(function(data){
-                    console.log(data);
                     if (data.more) {
-                        console.log("is working?");
                         init ();
+                    } else {
+                        writeHtml ();
                     }
                 })
             });
@@ -96,24 +86,30 @@ function init() {
         } else if (data.role === "Engineer") {
             function addEngineer (data, engineerInfo) {
                 let newEngineer = new Engineer(data.name, data.id, data.email, engineerInfo.github);
+                team.push(newEngineer);
             }
             inquirer.prompt(engineerQ).then(function(engineerInfo){
                 addEngineer(data, engineerInfo);
                 inquirer.prompt(moreEmployeesQ).then(function(data){
                     if (data.more) {
                         init ();
+                    } else {
+                        writeHtml ();
                     }
                 })
             });
         } else if (data.role === "Intern") {
             function addIntern(data, internInfo) {
                 let newIntern = new Intern(data.name, data.id, data.email, internInfo.school);
+                team.push(newIntern);
             }
             inquirer.prompt(internQ).then(function(internInfo){
                 addIntern(data, internInfo);
                 inquirer.prompt(moreEmployeesQ).then(function(data){
                     if (data.more) {
                         init ();
+                    } else {
+                        writeHtml ();
                     }
                 });
             });   
@@ -121,17 +117,12 @@ function init() {
     })
 }
 
+
 function writeHtml () {
     var teamHtml = render (team)
-    // fs.writeToFile("/output.Team.html", teamHtml, function(err));
-    fs.writeFileSync(path, data);
+    fs.writeFileSync("./output/team.html", teamHtml, function(err) {
+        console.log(err);
+    });
 }
 
-// add pushes near inquirers
-
-// After you have your html, you're now ready to create an HTML file using the HTML
-// returned from the `render` function. Now write it to a file named `team.html` in the
-// `output` folder. You can use the variable `outputPath` above target this location.
-// Hint: you may need to check if the `output` folder exists and create it if it
-// does not.
 init();
